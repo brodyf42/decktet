@@ -1,0 +1,15 @@
+/.bundle/
+/.idea/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+# not tracking Gemfile.lock in source control for gem
+Gemfile.lock
+
+# rspec failure tracking
+.rspec_status
