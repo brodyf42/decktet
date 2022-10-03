@@ -1,11 +1,11 @@
-require 'rspec'
+require 'spec_helper'
 
 RSpec.describe Card do
   let(:name) { 'the card' }
   let(:rank) { 2 }
   let(:suits) { [:moons, :suns] }
   let(:types) { [:location] }
-  subject(:card) { Card.new(name: name, rank: rank, suits: suits, types: types) }
+  subject { described_class.new(name: name, rank: rank, suits: suits, types: types) }
 
   describe 'Creating a card' do
     it 'successfully creates a Card object' do
@@ -21,33 +21,29 @@ RSpec.describe Card do
     describe 'name validation' do
       context 'name is not a string' do
         let(:name) { 5 }
-        it_behaves_like 'passing an invalid argument' do
-          let(:message) { 'name must be a String' }
-        end
+        let(:message) { 'name must be a String' }
+        it_behaves_like 'passing an invalid argument'
       end
 
       context 'when name is an empty string' do
         let(:name) { '' }
-        it_behaves_like 'passing an invalid argument' do
-          let(:message) { 'name must have length > 0' }
-        end
+        let(:message) { 'name must have length > 0' }
+        it_behaves_like 'passing an invalid argument'
       end
     end
 
     describe 'rank validation' do
       context 'when rank is not a valid value' do
         let(:rank) { :jack }
-        it_behaves_like 'passing an invalid argument' do
-          let(:message) { 'rank must be nil or one of the following values: [:ace, 2, 3, 4, 5, 6, 7, 8, 9, :pawn, :court, :crown]' }
-        end
+        let(:message) { 'rank must be nil or one of the following values: [:ace, 2, 3, 4, 5, 6, 7, 8, 9, :pawn, :court, :crown]' }
+        it_behaves_like 'passing an invalid argument'
       end
     end
 
     describe 'suits validation' do
       shared_examples 'passing bad suits data' do
-        it_behaves_like 'passing an invalid argument' do
-          let(:message) { 'suits must be nil or an array of one or more suit symbols in the following list: [:moons, :suns, :waves, :leaves, :wyrms, :knots]' }
-        end
+        let(:message) { 'suits must be nil or an array of one or more suit symbols in the following list: [:moons, :suns, :waves, :leaves, :wyrms, :knots]' }
+        it_behaves_like 'passing an invalid argument'
       end
 
       context 'when suits is not an array' do
@@ -67,17 +63,15 @@ RSpec.describe Card do
 
       context 'when a value is duplicated' do
         let(:suits) { [:moons, :suns, :moons] }
-        it_behaves_like 'passing an invalid argument' do
-          let(:message) { 'duplicate suits are not allowed' }
-        end
+        let(:message) { 'duplicate suits are not allowed' }
+        it_behaves_like 'passing an invalid argument'
       end
     end
 
     describe 'types validation' do
       shared_examples 'passing bad types data' do
-        it_behaves_like 'passing an invalid argument' do
-          let(:message) { 'types must be nil or an array of one or more type symbols in the following list: [:location, :personality, :event]' }
-        end
+        let(:message) { 'types must be nil or an array of one or more type symbols in the following list: [:location, :personality, :event]' }
+        it_behaves_like 'passing an invalid argument'
       end
 
       context 'when types is not an array' do
@@ -97,65 +91,16 @@ RSpec.describe Card do
 
       context 'when a value is duplicated' do
         let(:types) { [:location, :event, :event] }
-        it_behaves_like 'passing an invalid argument' do
-          let(:message) { 'duplicate types are not allowed' }
-        end
+        let(:message) { 'duplicate types are not allowed' }
+        it_behaves_like 'passing an invalid argument'
       end
     end
   end
 
-  describe '#has_suit?' do
-    let(:query_suit) { :moons }
-
-    context 'when the card has the given suit' do
-      it 'returns true' do
-        expect(card.has_suit?(query_suit)).to be true
-      end
-    end
-
-    context 'when the card does not have the given suit' do
-      let(:suits) { [:waves, :wyrms] }
-      it 'returns false' do
-        expect(card.has_suit?(query_suit)).to be false
-      end
-    end
-
-    context 'when suits is nil' do
-      let(:suits) { nil }
-      it 'returns false' do
-        expect(card.has_suit?(query_suit)).to be false
-      end
-    end
-  end
-
-  describe '#has_type?' do
-    let(:query_type) { :location }
-
-    context 'when the card has the given type' do
-      it 'returns true' do
-        expect(card.has_type?(query_type)).to be true
-      end
-    end
-
-    context 'when the card does not have the given type' do
-      let(:types) { [:personality] }
-      it 'returns false' do
-        expect(card.has_type?(query_type)).to be false
-      end
-    end
-
-    context 'when types is nil' do
-      let(:types) { nil }
-      it 'returns false' do
-        expect(card.has_type?(query_type)).to be false
-      end
-    end
-  end
-
-  describe '#is_excuse?' do
+  describe '#excuse?' do
     context 'when instantiating a normal card' do
       it 'returns false' do
-        expect(card.is_excuse?).to be false
+        expect(subject.excuse?).to be false
       end
     end
 
@@ -164,14 +109,101 @@ RSpec.describe Card do
       let(:suits) { nil }
       let(:types) { nil }
       it 'returns true' do
-        expect(card.is_excuse?).to be true
+        expect(subject.excuse?).to be true
       end
     end
 
     context 'when only the name is provided on instantiation' do
-      subject(:card) { Card.new(name: name) }
+      subject { Card.new(name: name) }
       it 'returns true' do
-        expect(card.is_excuse?).to be true
+        expect(subject.excuse?).to be true
+      end
+    end
+  end
+
+  describe '#has_type?' do
+    let(:query_type) { :location }
+
+    context 'when the card has the given type' do
+      let(:types) { [:location] }
+      it 'returns true' do
+        expect(subject.has_type?(query_type)).to be true
+      end
+    end
+
+    context 'when the card does not have the given type' do
+      let(:types) { [:personality] }
+      it 'returns false' do
+        expect(subject.has_type?(query_type)).to be false
+      end
+    end
+
+    context 'when types is nil' do
+      let(:types) { nil }
+      it 'returns false' do
+        expect(subject.has_type?(query_type)).to be false
+      end
+    end
+  end
+
+  describe '#has_suit?' do
+    let(:query_suit) { :moons }
+
+    context 'when the card has the given suit' do
+      let(:suits) { [:moons, :suns] }
+      it 'returns true' do
+        expect(subject.has_suit?(query_suit)).to be true
+      end
+    end
+
+    context 'when the card does not have the given suit' do
+      let(:suits) { [:waves, :wyrms] }
+      it 'returns false' do
+        expect(subject.has_suit?(query_suit)).to be false
+      end
+    end
+
+    context 'when suits is nil' do
+      let(:suits) { nil }
+      it 'returns false' do
+        expect(subject.has_suit?(query_suit)).to be false
+      end
+    end
+  end
+
+  describe 'suit convenience methods' do
+    [ {name: :moon?, suit: :moons},
+      {name: :sun?, suit: :suns},
+      {name: :wave?, suit: :waves},
+      {name: :leaf?, suit: :leaves},
+      {name: :wyrm?, suit: :wyrms},
+      {name: :knot?, suit: :knots},
+    ].each do |suit_method|
+      describe "##{suit_method[:name]}" do
+
+        context "when the card has the #{suit_method[:suit]} suit" do
+          let(:suits) { [suit_method[:suit]] }
+
+          it 'returns true' do
+            expect(subject.public_send(suit_method[:name])).to eq true
+          end
+        end
+
+        context "when the card has a different suit that is not #{suit_method[:suit]}" do
+          let(:suits) { Card::SUITS - [suit_method[:suit]] }
+
+          it 'returns false' do
+            expect(subject.public_send(suit_method[:name])).to eq false
+          end
+        end
+
+        context 'when the card has no suits' do
+          let(:suits) { nil }
+
+          it 'returns false' do
+            expect(subject.public_send(suit_method[:name])).to eq false
+          end
+        end
       end
     end
   end
