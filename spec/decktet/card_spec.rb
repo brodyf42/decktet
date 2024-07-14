@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Card do
+RSpec.describe Decktet::Card do
   let(:name) { 'the card' }
   let(:rank) { 2 }
   let(:suits) { [:moons, :suns] }
