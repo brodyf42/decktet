@@ -1,5 +1,6 @@
 require "decktet/version"
-require 'decktet/deck_builder'
+require 'decktet/card'
+require 'decktet/deck'
 
 module Decktet
   class Error < StandardError; end
