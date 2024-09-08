@@ -12,7 +12,7 @@ module Decktet
     end
 
     SUITS.each { |suit| define_method(:"#{suit}?") { suits&.include?(suit) || false } }
-    RANKS.each { |rank| define_method(:"#{rank}?") { self.rank == rank  } }
+    (RANKS - Array(2..9) ).each { |rank| define_method(:"#{rank}?") { self.rank == rank  } }
     TYPES.each { |type| define_method(:"#{type}?") { types&.include?(type) || false } }
 
     def to_h
@@ -22,36 +22,9 @@ module Decktet
     private
 
     def initialize(name:, rank: nil, suits: nil, types: nil)
-      validate_name(name)
-      validate_rank(rank)
-      validate_suits(suits)
-      validate_types(types)
-    end
-
-    def validate_name(name)
-      raise ArgumentError.new('name must be a String') unless name.is_a?(String)
-      raise ArgumentError.new('name must have length > 0') if name.empty?
       @name = name
-    end
-
-    def validate_rank(rank)
-      raise ArgumentError.new("rank must be nil or one of the following values: #{RANKS}") unless rank.nil? || RANKS.include?(rank)
       @rank = rank
-    end
-
-    def validate_suits(suits)
-      unless suits.nil? || (suits.is_a?(Array) && suits.length > 0 && suits.all?{|s| SUITS.include?(s)})
-        raise ArgumentError.new("suits must be nil or an array of one or more suit symbols in the following list: #{SUITS}")
-      end
-      raise ArgumentError.new("duplicate suits are not allowed") unless suits.nil? || suits.uniq!.nil?
       @suits = suits
-    end
-
-    def validate_types(types)
-      unless types.nil? || (types.is_a?(Array) && types.length > 0 && types.all?{|t| TYPES.include?(t)})
-        raise ArgumentError.new("types must be nil or an array of one or more type symbols in the following list: #{TYPES}")
-      end
-      raise ArgumentError.new("duplicate types are not allowed") unless types.nil? || types.uniq!.nil?
       @types = types
     end
 

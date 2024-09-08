@@ -8,16 +8,14 @@ module Decktet
         TEMPLATES.keys
       end
 
-      def new_basic_deck
-        new_deck_from_template(:basic_deck)
-      end
-
-      def new_extended_deck
-        new_deck_from_template(:extended_deck)
-      end
-
       def new_deck_from_template(template)
         new(*TEMPLATES[template])
+      end
+
+      available_templates.each do |template|
+        define method "new_#{template}" do
+          new_deck_from_template(template)
+        end
       end
 
       def new_custom_deck(*groups)
