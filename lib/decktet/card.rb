@@ -28,7 +28,7 @@ module Decktet
       @types = types
     end
 
-    THE_EXCUSE = new(name: 'the EXCUSE')
+    THE_EXCUSE = new(name: 'the EXCUSE').freeze
 
     ACES = [
       new(name: 'the ACE of MOONS',  rank: :ace, suits: [:moons]),
@@ -37,7 +37,7 @@ module Decktet
       new(name: 'the ACE of LEAVES', rank: :ace, suits: [:leaves]),
       new(name: 'the ACE of WYRMS',  rank: :ace, suits: [:wyrms]),
       new(name: 'the ACE of KNOTS',  rank: :ace, suits: [:knots])
-    ]
+    ].map(&:freeze).freeze
 
     NUMBER_CARDS = [
       new(name: 'the AUTHOR',         rank: 2, suits: [:moons, :knots],  types: [:personality]),
@@ -64,21 +64,21 @@ module Decktet
       new(name: 'the PACT',           rank: 9, suits: [:moons, :suns],   types: [:event]),
       new(name: 'the DARKNESS',       rank: 9, suits: [:waves, :wyrms],  types: [:location]),
       new(name: 'the MERCHANT',       rank: 9, suits: [:leaves, :knots], types: [:personality])
-    ]
+    ].map(&:freeze).freeze
 
     PAWNS = [
       new(name: 'the HARVEST',      rank: :pawn, suits: [:moons, :suns, :leaves],  types: [:event]),
       new(name: 'the WATCHMAN',     rank: :pawn, suits: [:moons, :wyrms, :knots],  types: [:personality]),
       new(name: 'the LIGHT KEEPER', rank: :pawn, suits: [:suns, :waves, :knots],   types: [:personality]),
       new(name: 'the BORDERLAND',   rank: :pawn, suits: [:waves, :leaves, :wyrms], types: [:location])
-    ]
+    ].map(&:freeze).freeze
 
     COURTS = [
       new(name: 'the CONSUL', rank: :court, suits: [:moons, :waves, :knots],  types: [:personality]),
       new(name: 'the RITE',   rank: :court, suits: [:moons, :leaves, :wyrms], types: [:event]),
       new(name: 'the ISLAND', rank: :court, suits: [:suns, :waves, :wyrms],   types: [:location]),
       new(name: 'the WINDOW', rank: :court, suits: [:suns, :leaves, :knots],  types: [:location])
-    ]
+    ].map(&:freeze).freeze
 
     CROWNS = [
       new(name: 'the HUNTRESS', rank: :crown, suits: [:moons],  types: [:personality]),
@@ -87,7 +87,7 @@ module Decktet
       new(name: 'the END',      rank: :crown, suits: [:leaves], types: [:location, :event]),
       new(name: 'the CALAMITY', rank: :crown, suits: [:wyrms],  types: [:event]),
       new(name: 'the WINDFALL', rank: :crown, suits: [:knots],  types: [:event])
-    ]
+    ].map(&:freeze).freeze
 
     CARD_GROUPS = {
       the_excuse: THE_EXCUSE,
