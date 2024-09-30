@@ -5,13 +5,15 @@ RSpec.describe Decktet::Card do
   let(:rank) { 2 }
   let(:suits) { [:moons, :suns] }
   let(:types) { [:location] }
-  subject { described_class.new(name: name, rank: rank, suits: suits, types: types) }
+  subject { described_class.send(:new, name: name, rank: rank, suits: suits, types: types) }
+
+  it 'does not allow direct instantiation' do
+    expect{ described_class.new(name: name) }.to raise_exception NoMethodError do |e|
+      expect(e.message).to match /private method `new' called for #{described_class}/
+    end
+  end
 
   describe 'Creating a card' do
-    it 'successfully creates a Card object' do
-      expect(subject).to be_a(Card)
-    end
-
     shared_examples 'passing an invalid argument' do
       it 'raises an ArgumentError with a useful message' do
         expect{subject}.to raise_error(ArgumentError, message)

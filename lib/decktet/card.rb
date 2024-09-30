@@ -3,21 +3,25 @@ module Decktet
     attr_reader :name, :rank, :suits, :types
     private_class_method :new
 
+    class << self
+      def available_groups
+        CARD_GROUPS.keys
+      end
+
+      def cards_from_groups(*groups)
+        groups.map{|group| CARD_GROUPS[group]}.flatten.map(&:dup)
+      end
+    end
+
     SUITS = [:moons, :suns, :waves, :leaves, :wyrms, :knots]
     RANKS = [:ace] + Array(2..9) + [:pawn, :court, :crown]
     TYPES = [:location, :personality, :event]
 
-    def excuse?
-      rank.nil? && suits.nil? && types.nil?
-    end
+    def excuse? = rank.nil? && suits.nil? && types.nil?
 
     SUITS.each { |suit| define_method(:"#{suit}?") { suits&.include?(suit) || false } }
     (RANKS - Array(2..9) ).each { |rank| define_method(:"#{rank}?") { self.rank == rank  } }
     TYPES.each { |type| define_method(:"#{type}?") { types&.include?(type) || false } }
-
-    def to_h
-      {name: name, rank: rank, suits: suits, types: types}
-    end
 
     private
 
@@ -98,11 +102,6 @@ module Decktet
       crowns: CROWNS
     }
 
-    private_constant :THE_EXCUSE
-    private_constant :ACES
-    private_constant :NUMBER_CARDS
-    private_constant :PAWNS
-    private_constant :COURTS
-    private_constant :CROWNS
+    private_constant :THE_EXCUSE, :ACES, :NUMBER_CARDS, :PAWNS, :COURTS, :CROWNS, :CARD_GROUPS
   end
 end
