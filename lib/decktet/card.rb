@@ -3,6 +3,16 @@ module Decktet
     attr_reader :name, :rank, :suits, :types
     private_class_method :new
 
+    class << self
+      def available_groups
+        CARD_GROUPS.keys
+      end
+
+      def cards_from_groups(*groups)
+        groups.map{|group| CARD_GROUPS[group]}.flatten.map(&:dup)
+      end
+    end
+
     SUITS = [:moons, :suns, :waves, :leaves, :wyrms, :knots]
     RANKS = [:ace] + Array(2..9) + [:pawn, :court, :crown]
     TYPES = [:location, :personality, :event]
@@ -104,5 +114,6 @@ module Decktet
     private_constant :PAWNS
     private_constant :COURTS
     private_constant :CROWNS
+    private_constant :CARD_GROUPS
   end
 end
