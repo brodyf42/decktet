@@ -1,5 +1,7 @@
 # Decktet
 
+[![Gem Version](https://badge.fury.io/rb/decktet.svg?icon=si%3Arubygems)](https://rubygems.org/gems/decktet)
+
 This gem provides a basic interface to the Decktet playing card system. Visit [decktet.com](https://www.decktet.com/) for an overview of the Decktet. More detailed information, including many games that can be played with this unique deck, can be found on [The Decktet Wiki](http://decktet.wikidot.com/). This gem is meant as a core library for manipulating the elements of the Decktet itself. As such, it does not include any game engine or other such advanced functionality.  
 
 ## Getting Started
