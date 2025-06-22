@@ -9,7 +9,8 @@ RSpec.describe Decktet::Deck do
   end
 
   it 'defines methods for deck templates' do
-    %w[new_basic_deck new_basic_deck_with_excuse new_extended_deck new_double_deck].each do |method_name|
+    Decktet::DeckTemplates.constants.each do |template|
+      method_name = "new_#{template}".downcase
       expect(Decktet::Deck.respond_to? method_name).to be true
     end
   end
