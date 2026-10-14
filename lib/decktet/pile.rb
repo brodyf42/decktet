@@ -18,20 +18,20 @@ module Decktet
     end
 
     def cut(depth=nil)
-      return self if @cards.empty?
+      return self if size < 2
 
       unless depth.nil?
         raise ArgumentError.new('cut depth cannot be negative') if depth < 0
-        raise ArgumentError.new('cut depth cannot be greater than the number of cards') if depth > @cards.count
+        raise ArgumentError.new('cut depth cannot be greater than the number of cards') if depth > size
       end
 
-      depth ||= rand(1...@cards.count)
+      depth ||= rand(1...size)
       @cards.rotate!(depth)
       self
     end
 
     def draw(count=1)
-      unless count.between?(0,@cards.count)
+      unless count.between?(0,size)
         raise ArgumentError.new('draw amount cannot be negative or greater than the number of cards')
       end
       @cards.shift(count)
