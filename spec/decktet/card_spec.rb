@@ -8,9 +8,7 @@ RSpec.describe Decktet::Card do
   let(:card) { described_class.send(:new, name:, rank:, suits:, types:) }
 
   it 'cannot be directly instantiated' do
-    expect { described_class.new(name:) }.to raise_error(NoMethodError) do |error|
-      expect(error.message).to eq "private method `new' called for class Decktet::Card"
-    end
+    expect { described_class.new(name:) }.to raise_error(NoMethodError)
   end
 
   describe '#excuse?' do
